@@ -265,10 +265,15 @@ def main() -> None:
         normalized, overrides_dir / "excluded_awards.csv"
     )
 
-    # Step 7: Compute derived fields
+    # Step 7: Filter to EIS and EA only
+    before_filter = len(normalized)
+    normalized = [r for r in normalized if r.get("document_type") in ("EIS", "EA")]
+    logger.info("Filtered to EIS/EA: %d -> %d records", before_filter, len(normalized))
+
+    # Step 8: Compute derived fields
     normalized = compute_derived_fields(normalized)
 
-    # Step 8: Write outputs
+    # Step 9: Write outputs
     write_outputs(normalized, output_dir)
 
     # Summary

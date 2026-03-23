@@ -75,11 +75,8 @@ function applyFilters() {
   const yearStart = parseInt(filterYearStart.value) || 0;
   const yearEnd = parseInt(filterYearEnd.value) || 9999;
 
-  const EIS_EA_TYPES = new Set(["EIS", "EA"]);
-
   filteredRecords = allRecords.filter(r => {
-    if (docType === "eis_ea" && !EIS_EA_TYPES.has(r.document_type)) return false;
-    if (docType !== "all" && docType !== "eis_ea" && r.document_type !== docType) return false;
+    if (docType !== "eis_ea" && r.document_type !== docType) return false;
     if (agency !== "all") {
       const recAgency = r.awarding_sub_agency || r.awarding_agency || "";
       if (recAgency !== agency) return false;
