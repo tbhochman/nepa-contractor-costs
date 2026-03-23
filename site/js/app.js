@@ -75,8 +75,11 @@ function applyFilters() {
   const yearStart = parseInt(filterYearStart.value) || 0;
   const yearEnd = parseInt(filterYearEnd.value) || 9999;
 
+  const CLASSIFIED_TYPES = new Set(["EIS", "EA", "NEPA_SUPPORT"]);
+
   filteredRecords = allRecords.filter(r => {
-    if (docType !== "all" && r.document_type !== docType) return false;
+    if (docType === "classified" && !CLASSIFIED_TYPES.has(r.document_type)) return false;
+    if (docType !== "all" && docType !== "classified" && r.document_type !== docType) return false;
     if (agency !== "all") {
       const recAgency = r.awarding_sub_agency || r.awarding_agency || "";
       if (recAgency !== agency) return false;
@@ -165,7 +168,7 @@ async function init() {
   filterYearEnd.addEventListener("change", renderAll);
 
   resetBtn.addEventListener("click", () => {
-    filterDocType.value = "all";
+    filterDocType.value = "classified";
     filterAgency.value = "all";
     const opts = [...filterYearStart.options];
     if (opts.length) {
