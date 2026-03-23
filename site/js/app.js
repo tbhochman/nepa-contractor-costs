@@ -8,8 +8,6 @@ import {
   renderAvgCostByYear,
   renderAvgDurationByYear,
   renderCostByType,
-  renderByAgency,
-  renderDuration,
   renderTopContractors,
 } from "./charts.js";
 import { renderDataTable } from "./table.js";
@@ -122,8 +120,6 @@ function renderCharts() {
   renderAvgCostByYear(filteredRecords, document.getElementById("chart-avg-cost-by-year"), Plot, d3);
   renderAvgDurationByYear(filteredRecords, document.getElementById("chart-avg-duration-by-year"), Plot, d3);
   renderCostByType(filteredRecords, document.getElementById("chart-cost-by-type"), Plot, d3);
-  renderByAgency(filteredRecords, document.getElementById("chart-by-agency"), Plot, d3);
-  renderDuration(filteredRecords, document.getElementById("chart-duration"), Plot, d3);
   renderTopContractors(filteredRecords, document.getElementById("chart-top-contractors"), Plot, d3);
 }
 
