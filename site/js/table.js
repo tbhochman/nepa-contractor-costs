@@ -13,13 +13,12 @@ const COLUMNS = [
   { key: "start_date", label: "Start", format: v => v || "", className: "" },
   { key: "duration_days", label: "Days", format: v => v != null ? String(v) : "", className: "col-amount" },
   { key: "fiscal_year", label: "FY", format: v => v != null ? String(v) : "", className: "" },
-  { key: "award_id", label: "Link", format: awardLinkFormat, className: "" },
+  { key: "generated_internal_id", label: "Link", format: awardLinkFormat, className: "" },
 ];
 
 function awardLinkFormat(v) {
   if (!v) return "";
-  const url = `https://www.usaspending.gov/award/${encodeURIComponent(v)}`;
-  return `<a href="${url}" target="_blank" rel="noopener">View</a>`;
+  return `<a href="https://www.usaspending.gov/award/${v}" target="_blank" rel="noopener">View</a>`;
 }
 
 function typeFormat(v) {

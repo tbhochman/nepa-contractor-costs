@@ -138,10 +138,10 @@ def write_outputs(records: list[dict], output_dir: Path) -> None:
     # CSV
     csv_path = output_dir / "nepa_contracts.csv"
     output_fields = [
-        "award_id", "description", "award_amount", "awarding_agency",
-        "awarding_sub_agency", "recipient_name", "start_date", "end_date",
-        "duration_days", "contract_award_type", "psc_code", "naics_code",
-        "document_type", "fiscal_year",
+        "award_id", "generated_internal_id", "description", "award_amount",
+        "awarding_agency", "awarding_sub_agency", "recipient_name",
+        "start_date", "end_date", "duration_days", "contract_award_type",
+        "psc_code", "naics_code", "document_type", "fiscal_year",
     ]
     with open(csv_path, "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=output_fields, extrasaction="ignore")
