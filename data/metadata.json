@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-03-23T00:06:40.713151Z",
+  "record_count": 8860,
+  "document_type_counts": {
+    "NEPA_SUPPORT": 963,
+    "EIS": 474,
+    "EA": 894,
+    "UNKNOWN": 6529
+  },
+  "top_agencies": {
+    "Department of the Interior": 2578,
+    "Department of Defense": 1932,
+    "Department of Agriculture": 1073,
+    "General Services Administration": 674,
+    "Environmental Protection Agency": 627,
+    "Department of Veterans Affairs": 434,
+    "Department of Homeland Security": 367,
+    "Department of Transportation": 260,
+    "Department of Energy": 210,
+    "Department of Commerce": 163
+  }
+}

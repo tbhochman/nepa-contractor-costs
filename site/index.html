@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEPA Contractor Costs Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>Federal NEPA Contractor Costs</h1>
+    <p class="subtitle">
+      Procurement data from <a href="https://usaspending.gov" target="_blank">USASpending.gov</a> on federal contracts
+      for Environmental Impact Statements (EIS) and Environmental Assessments (EA).
+    </p>
+    <p class="last-updated" id="last-updated"></p>
+  </header>
+
+  <section id="filters">
+    <div class="filter-group">
+      <label for="filter-doc-type">Document Type</label>
+      <select id="filter-doc-type">
+        <option value="all">All Types</option>
+        <option value="EIS">EIS only</option>
+        <option value="EA">EA only</option>
+        <option value="NEPA_SUPPORT">NEPA Support</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="filter-agency">Agency</label>
+      <select id="filter-agency">
+        <option value="all">All Agencies</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="filter-year-start">Fiscal Year</label>
+      <select id="filter-year-start"></select>
+      <span class="filter-separator">to</span>
+      <select id="filter-year-end"></select>
+    </div>
+    <button id="reset-filters">Reset</button>
+  </section>
+
+  <section id="summary-stats">
+    <div class="stat-card">
+      <div class="stat-value" id="stat-total-spend">--</div>
+      <div class="stat-label">Total Contractor Spend</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="stat-count">--</div>
+      <div class="stat-label">Contracts</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="stat-median-cost">--</div>
+      <div class="stat-label">Median Cost</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="stat-median-duration">--</div>
+      <div class="stat-label">Median Duration (days)</div>
+    </div>
+  </section>
+
+  <section class="chart-section">
+    <h2>Annual NEPA Contractor Spending</h2>
+    <div id="chart-spending-by-year" class="chart-container"></div>
+  </section>
+
+  <section class="chart-section">
+    <h2>Cost by Document Type</h2>
+    <div id="chart-cost-by-type" class="chart-container"></div>
+  </section>
+
+  <section class="chart-section">
+    <h2>Top 15 Agencies by NEPA Spending</h2>
+    <div id="chart-by-agency" class="chart-container"></div>
+  </section>
+
+  <section class="chart-section">
+    <h2>Contract Duration Distribution</h2>
+    <div id="chart-duration" class="chart-container"></div>
+  </section>
+
+  <section class="chart-section">
+    <h2>Top 15 Contractors</h2>
+    <div id="chart-top-contractors" class="chart-container"></div>
+  </section>
+
+  <section class="chart-section">
+    <h2>Contract Data</h2>
+    <div id="table-controls">
+      <input type="text" id="table-search" placeholder="Search contracts...">
+      <span id="table-count"></span>
+    </div>
+    <div id="data-table"></div>
+    <div id="table-pagination"></div>
+  </section>
+
+  <section id="methodology">
+    <h2>Methodology &amp; Caveats</h2>
+    <h3>Data Source</h3>
+    <p>
+      Contract awards from <a href="https://usaspending.gov">USASpending.gov</a>,
+      queried via three layered searches:
+    </p>
+    <ol>
+      <li>All contracts with PSC code F110 ("Development of EIS/EA, Technical Analysis/Environmental Audits")</li>
+      <li>Keyword "environmental impact statement" across all PSC codes</li>
+      <li>Keyword "environmental assessment" filtered to NAICS 541620 (Environmental Consulting Services)</li>
+    </ol>
+    <p>Results are deduplicated and classified as EIS or EA based on description text matching.</p>
+
+    <h3>What This Data Shows</h3>
+    <p>Federal agency expenditures on contractors for NEPA document preparation.</p>
+
+    <h3>What This Data Does Not Show</h3>
+    <ul>
+      <li><strong>Internal agency staff costs</strong> &mdash; only contractor payments are captured.</li>
+      <li><strong>Categorical Exclusions (CEs)</strong> &mdash; rarely involve standalone contracts; typically done in-house.</li>
+      <li><strong>Applicant-funded NEPA work</strong> &mdash; when project proponents hire their own NEPA consultants (common for FERC-jurisdictional energy projects), those costs are private transactions invisible to procurement data.</li>
+      <li><strong>Micro-purchases</strong> &mdash; contracts below the $15,000 threshold are not reported to FPDS.</li>
+    </ul>
+
+    <h3>Classification Accuracy</h3>
+    <p>
+      EIS/EA classification uses regex matching on contract descriptions. Some contracts cover
+      multiple document types or general NEPA support. The "NEPA Support" category captures
+      contracts coded under PSC F110 that don't mention a specific document type.
+      Manual overrides can correct misclassifications.
+    </p>
+
+    <h3>Award Amount</h3>
+    <p>
+      The "Award Amount" is the total obligated amount, which may include contract modifications
+      and may not equal the final cost. For IDIQ/BPA task orders, the amount reflects the
+      individual task order, not the parent contract ceiling.
+    </p>
+
+    <h3>Source Code</h3>
+    <p>
+      Pipeline code and data are open source:
+      <a href="https://github.com/thomashochman/nepa-contractor-costs" target="_blank">GitHub</a>.
+      Data refreshed monthly.
+    </p>
+  </section>
+
+  <footer>
+    <p>
+      Data from <a href="https://usaspending.gov">USASpending.gov</a>.
+      Built by the <a href="https://energy.thefai.org" target="_blank">FAI Energy Team</a>.
+    </p>
+  </footer>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
