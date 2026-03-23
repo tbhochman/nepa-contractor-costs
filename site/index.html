@@ -42,10 +42,6 @@
 
   <section id="summary-stats">
     <div class="stat-card">
-      <div class="stat-value" id="stat-total-spend">--</div>
-      <div class="stat-label">Total Contractor Spend</div>
-    </div>
-    <div class="stat-card">
       <div class="stat-value" id="stat-count">--</div>
       <div class="stat-label">Contracts</div>
     </div>
@@ -57,11 +53,20 @@
       <div class="stat-value" id="stat-median-duration">--</div>
       <div class="stat-label">Median Duration (days)</div>
     </div>
+    <div class="stat-card">
+      <div class="stat-value" id="stat-mean-cost">--</div>
+      <div class="stat-label">Mean Cost</div>
+    </div>
   </section>
 
   <section class="chart-section">
-    <h2>Annual NEPA Contractor Spending</h2>
-    <div id="chart-spending-by-year" class="chart-container"></div>
+    <h2>Median Contract Cost Over Time</h2>
+    <div id="chart-avg-cost-by-year" class="chart-container"></div>
+  </section>
+
+  <section class="chart-section">
+    <h2>Median Contract Duration Over Time</h2>
+    <div id="chart-avg-duration-by-year" class="chart-container"></div>
   </section>
 
   <section class="chart-section">
@@ -70,7 +75,7 @@
   </section>
 
   <section class="chart-section">
-    <h2>Top 15 Agencies by NEPA Spending</h2>
+    <h2>Top 15 Agencies by Median Contract Cost</h2>
     <div id="chart-by-agency" class="chart-container"></div>
   </section>
 

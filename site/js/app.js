@@ -5,7 +5,8 @@
 import * as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm";
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 import {
-  renderSpendingByYear,
+  renderAvgCostByYear,
+  renderAvgDurationByYear,
   renderCostByType,
   renderByAgency,
   renderDuration,
@@ -41,7 +42,6 @@ async function loadData() {
 }
 
 function populateFilters(records) {
-  // Agencies
   const agencies = [...new Set(records.map(r => r.awarding_sub_agency || r.awarding_agency).filter(Boolean))].sort();
   for (const ag of agencies) {
     const opt = document.createElement("option");
@@ -50,7 +50,6 @@ function populateFilters(records) {
     filterAgency.appendChild(opt);
   }
 
-  // Years
   const years = [...new Set(records.map(r => r.fiscal_year).filter(Boolean))].sort((a, b) => a - b);
   for (const yr of years) {
     const optStart = document.createElement("option");
@@ -100,30 +99,38 @@ function median(arr) {
   return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
 }
 
+function mean(arr) {
+  if (!arr.length) return 0;
+  return d3.sum(arr) / arr.length;
+}
+
 function updateStats() {
   const amounts = filteredRecords.map(r => r.award_amount).filter(v => v != null && v > 0);
   const durations = filteredRecords.map(r => r.duration_days).filter(v => v != null && v > 0);
 
-  document.getElementById("stat-total-spend").textContent =
-    formatCurrency(d3.sum(amounts));
   document.getElementById("stat-count").textContent =
     filteredRecords.length.toLocaleString();
   document.getElementById("stat-median-cost").textContent =
     amounts.length ? formatCurrency(median(amounts)) : "--";
   document.getElementById("stat-median-duration").textContent =
     durations.length ? Math.round(median(durations)).toLocaleString() : "--";
+  document.getElementById("stat-mean-cost").textContent =
+    amounts.length ? formatCurrency(mean(amounts)) : "--";
+}
+
+function renderCharts() {
+  renderAvgCostByYear(filteredRecords, document.getElementById("chart-avg-cost-by-year"), Plot, d3);
+  renderAvgDurationByYear(filteredRecords, document.getElementById("chart-avg-duration-by-year"), Plot, d3);
+  renderCostByType(filteredRecords, document.getElementById("chart-cost-by-type"), Plot, d3);
+  renderByAgency(filteredRecords, document.getElementById("chart-by-agency"), Plot, d3);
+  renderDuration(filteredRecords, document.getElementById("chart-duration"), Plot, d3);
+  renderTopContractors(filteredRecords, document.getElementById("chart-top-contractors"), Plot, d3);
 }
 
 function renderAll() {
   applyFilters();
   updateStats();
-
-  renderSpendingByYear(filteredRecords, document.getElementById("chart-spending-by-year"), Plot, d3);
-  renderCostByType(filteredRecords, document.getElementById("chart-cost-by-type"), Plot, d3);
-  renderByAgency(filteredRecords, document.getElementById("chart-by-agency"), Plot, d3);
-  renderDuration(filteredRecords, document.getElementById("chart-duration"), Plot, d3);
-  renderTopContractors(filteredRecords, document.getElementById("chart-top-contractors"), Plot, d3);
-
+  renderCharts();
   if (tableController) {
     tableController.update(filteredRecords);
   }
@@ -140,15 +147,8 @@ async function init() {
   populateFilters(allRecords);
   applyFilters();
   updateStats();
+  renderCharts();
 
-  // Render charts
-  renderSpendingByYear(filteredRecords, document.getElementById("chart-spending-by-year"), Plot, d3);
-  renderCostByType(filteredRecords, document.getElementById("chart-cost-by-type"), Plot, d3);
-  renderByAgency(filteredRecords, document.getElementById("chart-by-agency"), Plot, d3);
-  renderDuration(filteredRecords, document.getElementById("chart-duration"), Plot, d3);
-  renderTopContractors(filteredRecords, document.getElementById("chart-top-contractors"), Plot, d3);
-
-  // Render table
   tableController = renderDataTable(
     filteredRecords,
     document.getElementById("data-table"),
@@ -158,7 +158,6 @@ async function init() {
   );
   tableController.render();
 
-  // Filter event listeners
   filterDocType.addEventListener("change", renderAll);
   filterAgency.addEventListener("change", renderAll);
   filterYearStart.addEventListener("change", renderAll);
