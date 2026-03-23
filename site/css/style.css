@@ -232,6 +232,40 @@ header h1 {
   background: var(--color-accent-light);
 }
 
+#data-table .group-row {
+  cursor: pointer;
+  background: #f8fafc;
+}
+
+#data-table .group-row td {
+  font-weight: 500;
+}
+
+#data-table .group-row:hover td {
+  background: var(--color-accent-light);
+}
+
+.expand-chevron {
+  display: inline-block;
+  width: 1em;
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+}
+
+.contract-count {
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+#data-table .child-row td {
+  padding-left: 1.5rem;
+  background: #fefefe;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
 #data-table .col-description {
   max-width: 350px;
   overflow: hidden;
