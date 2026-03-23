@@ -13,6 +13,7 @@ from .api_client import search_awards
 from .classify import apply_exclusions, apply_manual_overrides, classify_document_type
 from .deduplicate import deduplicate_awards
 from .enrich import enrich_missing_details
+from .match_eis import build_eis_projects, load_eis_dashboard, match_contracts_to_eis
 from .queries import (
     build_ea_keyword_query,
     build_eis_keyword_query,
@@ -142,6 +143,7 @@ def write_outputs(records: list[dict], output_dir: Path) -> None:
         "awarding_agency", "awarding_sub_agency", "recipient_name",
         "start_date", "end_date", "duration_days", "contract_award_type",
         "psc_code", "naics_code", "document_type", "fiscal_year",
+        "eis_title", "eis_match_confidence",
     ]
     with open(csv_path, "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=output_fields, extrasaction="ignore")
@@ -270,10 +272,32 @@ def main() -> None:
     normalized = [r for r in normalized if r.get("document_type") in ("EIS", "EA")]
     logger.info("Filtered to EIS/EA: %d -> %d records", before_filter, len(normalized))
 
-    # Step 8: Compute derived fields
+    # Step 8: Match EIS contracts to actual EIS projects
+    eis_dashboard_path = output_dir / "eis_dashboard_records.json"
+    if eis_dashboard_path.exists():
+        eis_records = load_eis_dashboard(eis_dashboard_path)
+        normalized = match_contracts_to_eis(
+            normalized,
+            eis_records,
+            overrides_path=overrides_dir / "eis_matches_review.csv",
+        )
+        # Build grouped EIS projects
+        eis_projects = build_eis_projects(normalized)
+        eis_projects_path = output_dir / "eis_projects.json"
+        with open(eis_projects_path, "w") as f:
+            json.dump(eis_projects, f, indent=2)
+        logger.info(
+            "EIS projects: %d matched, %d unmatched contracts",
+            eis_projects["project_count"],
+            eis_projects["unmatched_count"],
+        )
+    else:
+        logger.warning("EIS dashboard data not found at %s, skipping matching.", eis_dashboard_path)
+
+    # Step 9: Compute derived fields
     normalized = compute_derived_fields(normalized)
 
-    # Step 9: Write outputs
+    # Step 10: Write outputs
     write_outputs(normalized, output_dir)
 
     # Summary

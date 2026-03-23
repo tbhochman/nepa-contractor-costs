@@ -36,3 +36,35 @@ PAGE_SIZE = 100
 
 # Rate limiting for individual award detail fetches
 DETAIL_FETCH_DELAY_SECONDS = 0.25
+
+# USASpending sub-agency name -> EIS dashboard agency code
+AGENCY_CODE_MAP = {
+    "Bureau of Land Management": "BLM",
+    "Forest Service": "USFS",
+    "Bureau of Reclamation": "BR",
+    "Department of Energy": "DOE",
+    "Department of the Navy": "USN",
+    "Department of the Air Force": "USAF",
+    "Department of the Army": "USACE",
+    "National Park Service": "NPS",
+    "Bureau of Ocean Energy Management": "BOEM",
+    "National Highway Traffic Safety Administration": "NHTSA",
+    "Federal Energy Regulatory Commission": "FERC",
+    "National Aeronautics and Space Administration": "NASA",
+    "U.S. Fish and Wildlife Service": "USFWS",
+    "Nuclear Regulatory Commission": "NRC",
+    "Federal Aviation Administration": "FAA",
+    "Federal Highway Administration": "FHWA",
+    "Federal Railroad Administration": "FRA",
+    "Animal and Plant Health Inspection Service": "APHIS",
+    "National Oceanic and Atmospheric Administration": "NOAA",
+    "U.S. Customs and Border Protection": "CBP",
+    "Public Buildings Service": "GSA",
+    "Office of Surface Mining, Reclamation and Enforcement": "OSM",
+    "Federal Transit Administration": "FTA",
+    "Bureau of Indian Affairs": "BIA",
+    "Department of Veterans Affairs": "VA",
+    "Agency for International Development": "USAID",
+    "Bonneville Power Administration": "BPA",
+    "Western Area Power Administration": "WAPA",
+}

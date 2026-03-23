@@ -6,6 +6,7 @@ on:
     paths:
       - 'site/**'
       - 'data/nepa_contracts.json'
+      - 'data/eis_projects.json'
       - 'data/metadata.json'
   workflow_dispatch:
 
@@ -31,6 +32,7 @@ jobs:
           mkdir -p _deploy
           cp -r site/* _deploy/
           cp data/nepa_contracts.json _deploy/
+          cp data/eis_projects.json _deploy/ 2>/dev/null || true
           cp data/metadata.json _deploy/
 
       - uses: actions/configure-pages@v4

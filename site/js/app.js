@@ -8,11 +8,13 @@ import {
   renderAvgCostByYear,
   renderAvgDurationByYear,
   renderCostByType,
+  renderEISProjects,
 } from "./charts.js";
 import { renderDataTable } from "./table.js";
 
 let allRecords = [];
 let filteredRecords = [];
+let eisProjects = null;
 let tableController = null;
 
 // Filters
@@ -24,8 +26,14 @@ const resetBtn = document.getElementById("reset-filters");
 const searchInput = document.getElementById("table-search");
 
 async function loadData() {
-  const resp = await fetch("nepa_contracts.json");
-  const data = await resp.json();
+  const [contractResp, eisResp] = await Promise.all([
+    fetch("nepa_contracts.json"),
+    fetch("eis_projects.json").catch(() => null),
+  ]);
+  const data = await contractResp.json();
+  if (eisResp && eisResp.ok) {
+    eisProjects = await eisResp.json();
+  }
 
   document.getElementById("last-updated").textContent =
     `Data last updated: ${new Date(data.generated_at).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}`;
@@ -113,12 +121,15 @@ function updateStats() {
     durations.length ? Math.round(median(durations)).toLocaleString() : "--";
   document.getElementById("stat-mean-cost").textContent =
     amounts.length ? formatCurrency(mean(amounts)) : "--";
+  document.getElementById("stat-eis-matched").textContent =
+    eisProjects ? eisProjects.project_count.toLocaleString() : "--";
 }
 
 function renderCharts() {
   renderAvgCostByYear(filteredRecords, document.getElementById("chart-avg-cost-by-year"), Plot, d3);
   renderAvgDurationByYear(filteredRecords, document.getElementById("chart-avg-duration-by-year"), Plot, d3);
   renderCostByType(filteredRecords, document.getElementById("chart-cost-by-type"), Plot, d3);
+  renderEISProjects(eisProjects, document.getElementById("chart-eis-projects"), Plot, d3);
 }
 
 function renderAll() {

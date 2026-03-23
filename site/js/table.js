@@ -9,12 +9,18 @@ const COLUMNS = [
   { key: "award_amount", label: "Amount", format: amountFormat, className: "col-amount" },
   { key: "awarding_sub_agency", label: "Agency", format: v => v || "", className: "" },
   { key: "recipient_name", label: "Contractor", format: v => v || "", className: "" },
+  { key: "eis_title", label: "EIS Project", format: eisTitleFormat, className: "col-description" },
   { key: "description", label: "Description", format: v => v || "", className: "col-description" },
   { key: "start_date", label: "Start", format: v => v || "", className: "" },
   { key: "duration_days", label: "Days", format: v => v != null ? String(v) : "", className: "col-amount" },
   { key: "fiscal_year", label: "FY", format: v => v != null ? String(v) : "", className: "" },
   { key: "generated_internal_id", label: "Link", format: awardLinkFormat, className: "" },
 ];
+
+function eisTitleFormat(v) {
+  if (!v) return "<span style='color:#9ca3af'>—</span>";
+  return v.length > 50 ? v.slice(0, 47) + "..." : v;
+}
 
 function awardLinkFormat(v) {
   if (!v) return "";

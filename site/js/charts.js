@@ -218,3 +218,51 @@ export function renderTopContractors(records, container, Plot, d3) {
 
   container.append(chart);
 }
+
+export function renderEISProjects(eisProjects, container, Plot, d3) {
+  container.innerHTML = "";
+  if (!eisProjects || !eisProjects.projects || !eisProjects.projects.length) {
+    container.textContent = "No matched EIS projects";
+    return;
+  }
+
+  const data = eisProjects.projects
+    .slice(0, 20)
+    .map(p => ({
+      title: p.eis_title.length > 60 ? p.eis_title.slice(0, 57) + "..." : p.eis_title,
+      full_title: p.eis_title,
+      total: p.total_contractor_cost,
+      count: p.contract_count,
+      agency: p.eis_agency,
+      duration: p.eis_duration_years,
+    }));
+
+  const chart = Plot.plot({
+    width: Math.min(container.clientWidth - 48, 900),
+    height: 550,
+    marginLeft: 380,
+    x: { label: "Total Contractor Cost ($)", grid: true, tickFormat: d => d3.format("$.2s")(d) },
+    y: { label: null },
+    marks: [
+      Plot.barX(data, {
+        y: "title",
+        x: "total",
+        fill: "#2563eb",
+        sort: { y: "-x" },
+        tip: true,
+        title: d => `${d.full_title}\n${d.agency} | ${d.count} contract(s)\n$${d3.format(",.0f")(d.total)}${d.duration ? `\nEIS duration: ${d.duration.toFixed(1)} years` : ""}`,
+      }),
+      Plot.ruleX([0]),
+      Plot.text(data, {
+        y: "title",
+        x: "total",
+        text: d => `${d.count}`,
+        dx: 12,
+        fontSize: 10,
+        fill: "#555",
+      }),
+    ],
+  });
+
+  container.append(chart);
+}
