@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-03-23T03:15:20.797366Z",
-  "record_count": 1368,
+  "generated_at": "2026-04-01T07:55:41.058079Z",
+  "record_count": 1369,
   "records": [
     {
       "award_id": "INR06B3204097B",
@@ -3868,8 +3868,8 @@
       "awarding_sub_agency": "Department of the Navy",
       "recipient_name": "CARDNO TEC-AECOM ATLANTIC JOINT VENTURE",
       "start_date": "2023-09-15",
-      "end_date": "2025-12-31",
-      "duration_days": 838,
+      "end_date": "2026-09-30",
+      "duration_days": 1111,
       "contract_award_type": "DELIVERY ORDER",
       "psc_code": "",
       "naics_code": "",
@@ -4352,6 +4352,25 @@
       "fiscal_year": 2018,
       "eis_title": "",
       "eis_match_confidence": "none"
+    },
+    {
+      "award_id": "140D0426F0347",
+      "generated_internal_id": "CONT_AWD_140D0426F0347_1406_140D0425D0054_1406",
+      "description": "ENVIRONMENTAL IMPACT STATEMENT (EIS) FOR REGIONAL SPECIAL USE AIRSPACE OPTIMIZATION TO SUPPORT AIR FORCEM MISSIONS IN ARIZONA",
+      "award_amount": 749814.25,
+      "awarding_agency": "Department of the Interior",
+      "awarding_sub_agency": "Departmental Offices",
+      "recipient_name": "STANTEC GS INC.",
+      "start_date": "2026-03-27",
+      "end_date": "2028-03-30",
+      "duration_days": 734,
+      "contract_award_type": "DELIVERY ORDER",
+      "psc_code": "",
+      "naics_code": "",
+      "document_type": "EIS",
+      "fiscal_year": 2026,
+      "eis_title": "Regional Special Use Airspace Optimization Arizona",
+      "eis_match_confidence": "high"
     },
     {
       "award_id": "DE01",
