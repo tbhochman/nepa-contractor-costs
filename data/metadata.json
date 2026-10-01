@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-09-01T11:41:42.962711Z",
-  "record_count": 1374,
+  "generated_at": "2026-10-01T13:21:08.012637Z",
+  "record_count": 1377,
   "document_type_counts": {
-    "EIS": 478,
-    "EA": 896
+    "EIS": 479,
+    "EA": 898
   },
   "top_agencies": {
-    "Department of the Interior": 510,
+    "Department of the Interior": 511,
     "Department of Defense": 242,
     "Department of Veterans Affairs": 122,
     "Department of Agriculture": 121,
     "General Services Administration": 113,
     "Department of Energy": 58,
-    "Department of Homeland Security": 40,
+    "Department of Homeland Security": 41,
     "Department of Commerce": 34,
     "Department of Transportation": 31,
     "Environmental Protection Agency": 31
